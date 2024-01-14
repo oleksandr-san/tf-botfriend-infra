@@ -32,3 +32,19 @@ variable "GKE_POOL_NAME" {
   default     = "main"
   description = "GKE pool name"
 }
+
+variable "GITHUB_OWNER" {
+  type        = string
+  description = "GitHub owner"
+}
+
+variable "GITHUB_TOKEN" {
+  type        = string
+  description = "GitHub personal access token"
+}
+
+variable "FLUX_GITHUB_REPO" {
+  type        = string
+  default     = "flux-gitops"
+  description = "Flux GitHub repository"
+}
