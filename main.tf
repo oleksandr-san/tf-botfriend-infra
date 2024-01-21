@@ -32,3 +32,25 @@ module "github_repository" {
 module "tls_private_key" {
   source = "github.com/oleksandr-san/tf-hashicorp-tls-keys"
 }
+
+module "gke-workload-identity" {
+  source              = "terraform-google-modules/kubernetes-engine/google//modules/workload-identity"
+  name                = "kustomize-controller"
+  namespace           = "flux-system"
+  project_id          = var.GOOGLE_PROJECT
+  location            = var.GOOGLE_REGION
+  cluster_name        = "main"
+  use_existing_k8s_sa = true
+  annotate_k8s_sa     = true
+  roles               = ["roles/cloudkms.cryptoKeyEncrypterDecrypter"]
+}
+
+module "kms" {
+  source  = "github.com/den-vasyliev/terraform-google-kms"
+
+  project_id         = var.GOOGLE_PROJECT
+  location           = "global"
+  keyring            = "sops-flux"
+  keys               = ["sops-key-flux"]
+  prevent_destroy    = false
+}
