@@ -14,7 +14,7 @@ module "cluster" {
 
 module "flux_bootstrap" {
   source            = "github.com/oleksandr-san/tf-fluxcd-flux-bootstrap"
-  github_repository = "${var.GITHUB_OWNER}/${var.FLUX_GITHUB_REPO}"
+  github_repository = "${var.GITHUB_OWNER}/${module.github_repository.name}"
   private_key       = module.tls_private_key.private_key_pem
   config_path       = module.cluster.kubeconfig
   github_token      = var.GITHUB_TOKEN
